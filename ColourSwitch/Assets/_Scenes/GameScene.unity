@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MediumCircleStar
       objectReference: {fileID: 0}
+    - target: {fileID: 909335698938558822, guid: 3a73a69eb5c018649b3ff33dfd5a9780, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 909335698938558823, guid: 3a73a69eb5c018649b3ff33dfd5a9780, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -279,9 +283,9 @@ MonoBehaviour:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.507
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1009,13 +1013,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c98871cc816fcb4aaa75770570edccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upwardsForce: 7.5
-  mainCamera: {fileID: 519420031}
-  theRB: {fileID: 475173102}
-  theSR: {fileID: 475173098}
+  playerColour: 
+  previousPlayerColour: 
+  magentaColour: {r: 0.7176471, g: 0, b: 0.8980392, a: 1}
+  blueColour: {r: 0, g: 0.39607844, b: 1, a: 1}
+  greenColour: {r: 0.15686275, g: 0.8666667, b: 0, a: 1}
+  redColour: {r: 1, g: 0.24313726, b: 0.22352941, a: 1}
   deathEffect: {fileID: 294540363837302882, guid: a50a861cc6f7aa048adac63bdfc78f0e, type: 3}
   starCollectedEffect: {fileID: 294540363837302882, guid: 53ecc67773781ea45ad47e42acf7361a, type: 3}
-  gravityScale: 2.5
 --- !u!58 &475173101
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1124,7 +1129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e416467d85d1a41982919d9a453ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 475173099}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -1529,9 +1533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdec069cb57970d43a8bbd8bc213bd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTransform: {fileID: 475173099}
   colourSwitch: {fileID: 2025989386160322019, guid: d134dea1c2ace794597562c621fa8e1c, type: 3}
-  spawnDistance: 8
   obstacle:
   - {fileID: 909335698938558822, guid: 3a73a69eb5c018649b3ff33dfd5a9780, type: 3}
   - {fileID: 909335698938558822, guid: 343abc639556a93459dfc592b7e7c55b, type: 3}
@@ -1967,15 +1969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91480cac2eec7d40ac9de915f0b920e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerColour: 
-  previousPlayerColour: 
-  magentaColour: {r: 0.7176471, g: 0, b: 0.8980393, a: 1}
-  blueColour: {r: 0, g: 0.39607847, b: 1, a: 1}
-  greenColour: {r: 0.15686275, g: 0.86666673, b: 0, a: 1}
-  redColour: {r: 1, g: 0.24313727, b: 0.22352943, a: 1}
-  score: 0
   gameOver: 0
   canClick: 0
+  score: 0
 --- !u!4 &1223992870
 Transform:
   m_ObjectHideFlags: 0
@@ -2608,23 +2604,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1935506697}
   m_CullTransparentMesh: 1
---- !u!1 &2005788402 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 909335698938558822, guid: 3a73a69eb5c018649b3ff33dfd5a9780, type: 3}
-  m_PrefabInstance: {fileID: 23165296}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2005788403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2005788402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5318e08fdedfade40a610974ed88b7de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2061391848
 GameObject:
   m_ObjectHideFlags: 0
@@ -2947,6 +2926,10 @@ PrefabInstance:
     - target: {fileID: 2025989386160322019, guid: d134dea1c2ace794597562c621fa8e1c, type: 3}
       propertyPath: m_Name
       value: ColourSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 2025989386160322019, guid: d134dea1c2ace794597562c621fa8e1c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d134dea1c2ace794597562c621fa8e1c, type: 3}
