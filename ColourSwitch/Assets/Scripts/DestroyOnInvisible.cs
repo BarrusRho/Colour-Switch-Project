@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyOnInvisible : MonoBehaviour
 {
-    private Camera mainCamera;
+    private Camera _mainCamera;
+    private float _cameraOffset = 7.0f;
 
-    void Start()
+    private void Awake()
     {
-        mainCamera = Camera.main;        
+        _mainCamera = Camera.main;        
     }
 
-    void Update()
+    private void Update()
     {
-        if (this.transform.position.y + 7 < mainCamera.transform.position.y) // Destroys the object if object falls out of view of Camera
+        if (this.transform.position.y + _cameraOffset < _mainCamera.transform.position.y) // Destroys the object if object falls out of view of Camera
         {
             Destroy(this.gameObject, 0f); 
         }
