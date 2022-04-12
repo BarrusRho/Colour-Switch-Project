@@ -5,14 +5,28 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    private static UIManager _instance = null;
+    public static UIManager instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
     public GameObject gameOverPanel;
-
     public Text scoreText, gameOverScoreText, highScoreText, restartText;
 
     private void Awake()
     {
-        instance = this; // Sets instance of UIManager Singleton
+        if (_instance == null)
+        {
+            _instance = this; // Sets instance of UIManager Singleton
+            //DontDestroyOnLoad(this.gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(this.gameObject, 0f);
+        }
     }
 }
