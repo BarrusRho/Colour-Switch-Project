@@ -1,40 +1,45 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance;
+    private static GameManager _instance = null;
+    public static GameManager instance 
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
-    public string playerColour;
-
-    public string previousPlayerColour;
-    
-    public Color magentaColour, blueColour, greenColour, redColour;
-
-    public int score = 0;
-
-    private int highScore;
-
+    private int _score = 0;
+    private int _highScore;
     public bool gameOver = false;
-
     public bool canClick = false;
+    public GameObject gameOverPanel;
+    public TextMeshProUGUI scoreText, gameOverScoreText, highScoreText, restartText;
 
     private void Awake()
     {
-        instance = this; // Sets instance of GameManager Singleton
+        if (_instance == null)
+        {
+            _instance = this; // Sets instance of GameManager Singleton
+        }
+        else if (_instance != this)
+        {
+            Destroy(this.gameObject, 0f);
+        }
     }
     
     void Start()
     {
         gameOver = false;
-
         canClick = false;
-
-        UIManager.instance.scoreText.text = "" + score; // Shows the score on the UI Text
-
-        highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
+        scoreText.text = $"{_score}"; // Shows the score on the UI Text
+        _highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
     }
     
     void Update()
@@ -45,84 +50,33 @@ public class GameManager : MonoBehaviour
         }                     
     }
 
-    public void GiveRandomColour() // Gives a "random" of 4 colours to the Player object
+    public void UpdateScore(int scoreToAdd) // Adds score to UI Text and updates the highest score if a new high score is achieved
     {
-        int index = Random.Range(0, 4);
+        _score += scoreToAdd;
+        scoreText.text = $"{_score}";        
 
-        switch (index) // Switch statements are cleaner and easier to read than many if else statements
+        if (_score > _highScore)
         {
-            case 0: playerColour = "Magenta";
-
-                PlayerController.instance.theSR.color = magentaColour;
-
-                break;
-
-            case 1: playerColour = "Blue";
-
-                PlayerController.instance.theSR.color = blueColour;
-
-                break;
-
-            case 2: playerColour = "Green";
-
-                PlayerController.instance.theSR.color = greenColour;
-
-                break;
-
-            case 3: playerColour = "Red";
-
-                PlayerController.instance.theSR.color = redColour;
-
-                break;
-        }
-
-        if (playerColour == previousPlayerColour) // Checks if the new Player colour is the same as the previous colour and if it is, a new colour is randomised 
-        {
-            Debug.Log("Colours are the same. Assigning new colour");
-
-            GiveRandomColour();
-        }
-
-        previousPlayerColour = playerColour;
-    }
-
-    public void AddScore(int scoreToAdd) // Adds score to UI Text and updates the highest score if a new high score is achieved
-    {
-        score += scoreToAdd;        
-
-        UIManager.instance.scoreText.text = "" + score;        
-
-        if (score > highScore)
-        {
-            highScore = score;
-
-            UIManager.instance.highScoreText.text = "High Score: " + highScore;
-
-            PlayerPrefs.SetInt("HighScore", highScore);
+            _highScore = _score;
+            highScoreText.text = $"High Score: {_highScore}";
+            PlayerPrefs.SetInt("HighScore", _highScore);
         }
     }
 
     public void GameOver() // Sets game over state to be true and starts running the end state UI
     {
         gameOver = true;
-
         StartCoroutine(GameOverCoroutine());
     }
 
     public IEnumerator GameOverCoroutine() // Starts running the end state UI and sets bool to allow clicking to restart the game
     {
         yield return new WaitForSeconds(2f);
-
-        UIManager.instance.gameOverPanel.SetActive(true);
-
-        UIManager.instance.gameOverScoreText.text = "" + score;        
-
-        UIManager.instance.highScoreText.text = "" + highScore;
-
+        gameOverPanel.SetActive(true);
+        gameOverScoreText.text = $"{_score}";
+        highScoreText.text = $"{_highScore}";
         yield return new WaitForSeconds(0.75f);
-
-        UIManager.instance.restartText.gameObject.SetActive(true);
-
+        restartText.gameObject.SetActive(true);
         canClick = true;
     }
 }
