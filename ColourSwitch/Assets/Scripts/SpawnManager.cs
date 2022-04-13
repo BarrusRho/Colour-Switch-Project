@@ -1,33 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    public static SpawnManager instance;
+    private static SpawnManager _instance = null;
+    public static SpawnManager instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
-    public Transform playerTransform;
-
+    private Transform _playerTransform;
+    private float _spawnDistance = 8f;
     public GameObject colourSwitch;
-
-    public float spawnDistance = 8f;
-
     public GameObject[] obstacle;
 
     private void Awake()
     {
-        instance = this; // Sets instance of SpawnManager Singleton
+        if (_instance == null)
+        {
+            _instance = this; // Sets instance of SpawnManager Singleton
+        }
+        else if (_instance  != this)
+        {
+            Destroy(this.gameObject, 0f);
+        }
+
+        _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     public void ColourSwitchSpawn() // Spawns a new Colour Switch a set distance above the Player
     {
-        Instantiate(colourSwitch, new Vector2(playerTransform.transform.position.x, playerTransform.transform.position.y + spawnDistance), transform.rotation);
+        Instantiate(colourSwitch, new Vector2(_playerTransform.transform.position.x, _playerTransform.transform.position.y + _spawnDistance), transform.rotation);
     }
 
     public void ObstacleSpawn() // Spawns an obstacle from the array at a set distance from the Player
     {
-        int randomNumber = Random.Range(0, 11);
-
-        Instantiate(obstacle[randomNumber], new Vector2(playerTransform.transform.position.x, playerTransform.transform.position.y + spawnDistance), transform.rotation);
+        int randomNumber = Random.Range(0, obstacle.Length);
+        Instantiate(obstacle[randomNumber], new Vector2(_playerTransform.transform.position.x, _playerTransform.transform.position.y + _spawnDistance), transform.rotation);
     }
 }

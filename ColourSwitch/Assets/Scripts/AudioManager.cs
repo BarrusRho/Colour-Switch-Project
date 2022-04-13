@@ -1,16 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;     
+    private static AudioManager _instance = null;
+    public static AudioManager instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
 
     public AudioSource jumpAudio, colourChangeAudio, starCollectAudio, defeatAudio;
 
     private void Awake()
     {
-        instance = this; // Sets instance of AudioManager Singleton
+        if (_instance == null)
+        {
+            _instance = this; // Sets instance of AudioManager Singleton
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(this.gameObject, 0f);
+        }
     }
 
     public void PlayJumpAudio()
@@ -31,7 +44,6 @@ public class AudioManager : MonoBehaviour
     public void PlayDefeatAudio() 
     {
         jumpAudio.Stop();
-
         defeatAudio.Play();
     }
 }
