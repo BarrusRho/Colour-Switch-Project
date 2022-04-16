@@ -6,54 +6,44 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance = null;
-    public static GameManager instance 
-    {
-        get
-        {
-            return _instance;
-        }
-    }
-
     private int _score = 0;
     private int _highScore;
     public bool gameOver = false;
     public bool canClick = false;
-    public GameObject gameOverPanel;
+    public GameObject startGamePanel, gameOverPanel;
     public TextMeshProUGUI scoreText, gameOverScoreText, highScoreText, restartText;
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this; // Sets instance of GameManager Singleton
-        }
-        else if (_instance != this)
-        {
-            Destroy(this.gameObject, 0f);
-        }
-    }
-    
     void Start()
     {
-        gameOver = false;
-        canClick = false;
-        scoreText.text = $"{_score}"; // Shows the score on the UI Text
-        _highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
+        StartGame();
     }
-    
+
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && startGamePanel.activeInHierarchy == true)
+        {
+            startGamePanel.SetActive(false);
+        }
+
         if (Input.GetMouseButtonDown(0) && gameOver == true && canClick == true) // If the game is over and the "Click to Restart" UI Text is visible, then Load the current scene
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }                     
+        }
+    }
+
+    private void StartGame()
+    {
+        gameOver = false;
+        canClick = false;
+        startGamePanel.SetActive(true);
+        scoreText.text = $"{_score}"; // Shows the score on the UI Text
+        _highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
     }
 
     public void UpdateScore(int scoreToAdd) // Adds score to UI Text and updates the highest score if a new high score is achieved
     {
         _score += scoreToAdd;
-        scoreText.text = $"{_score}";        
+        scoreText.text = $"{_score}";
 
         if (_score > _highScore)
         {
