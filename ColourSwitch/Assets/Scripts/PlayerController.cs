@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,15 +12,11 @@ public class PlayerController : MonoBehaviour
     private float _gravityScale = 2.5f;
     public Color magentaColour, blueColour, greenColour, redColour;
     public GameObject deathEffect, starCollectedEffect;
-
-    public delegate void OnStarCollected(int scoreToAdd);
-    public static event OnStarCollected onStarCollected;
-    public delegate void OnPlayerDeath();
-    public static event OnPlayerDeath onPlayerDeath;
-    public delegate void OnColourSwitchSpawn();
-    public static event OnColourSwitchSpawn onColourSwitchSpawn;
-    public delegate void OnObstacleSpawn();
-    public static event OnObstacleSpawn onObstacleSpawn;
+    
+    public static Action<int> OnStarCollected;
+    public static Action OnPlayerDeath;
+    public static Action OnColourSwitchSpawn;
+    public static Action OnObstacleSpawn;
 
     private void Awake()
     {
@@ -65,18 +62,13 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(deathEffect, transform.position, transform.rotation); // Instantiates a player explosion particle system at the Player's transform position
         AudioManager.instance.PlayDefeatAudio(); // Plays a player explosion sound on Player death
-
-        if (onPlayerDeath != null)
-        {
-            onPlayerDeath();
-        }
-
+        OnPlayerDeath?.Invoke();
         this.gameObject.SetActive(false); // Disables the Player 
     }
 
     public void GiveRandomColour() // Gives a "random" of 4 colours to the Player object
     {
-        int index = Random.Range(0, 4);
+        int index = UnityEngine.Random.Range(0, 4);
         switch (index) // Switch statements are cleaner and easier to read than many if else statements
         {
             case 0:
@@ -114,12 +106,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("ColourSwitch"))
         {
             GiveRandomColour(); // Assigns new colour to Player when object is touched by Player
-
-            if (onColourSwitchSpawn != null)
-            {
-                onColourSwitchSpawn();  // Instantiates a new Colour Switch
-            }
-
+            OnColourSwitchSpawn?.Invoke();  // Instantiates a new Colour Switch
             AudioManager.instance.PlayColourChangeAudio();
             Destroy(other.gameObject, 0f); // Destroys current Colour Switch
             return;
@@ -128,12 +115,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("StarPickup"))
         {
             CollectStar();
-
-            if (onObstacleSpawn != null)
-            {
-                onObstacleSpawn(); // Instantiates a new obstacle from an array
-            }
-
+            OnObstacleSpawn?.Invoke(); // Instantiates a new obstacle from an array
             Destroy(other.gameObject, 0f); // Destroys current Star Pickup
             return;
         }
@@ -154,10 +136,6 @@ public class PlayerController : MonoBehaviour
         var starScore = 1;
         Instantiate(starCollectedEffect, transform.position, transform.rotation);
         AudioManager.instance.PlayStarCollectAudio();
-
-        if (onStarCollected != null)
-        {
-            onStarCollected(starScore); // Adds score to the Text UI
-        }
+        OnStarCollected?.Invoke(starScore); // Adds score to the Text UI
     }
 }

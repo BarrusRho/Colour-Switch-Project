@@ -9,14 +9,14 @@ public class SpawnManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.onColourSwitchSpawn += ColourSwitchSpawn;
-        PlayerController.onObstacleSpawn += ObstacleSpawn;
+        PlayerController.OnColourSwitchSpawn += ColourSwitchSpawn;
+        PlayerController.OnObstacleSpawn += ObstacleSpawn;
     }
 
     private void OnDisable()
     {
-        PlayerController.onColourSwitchSpawn -= ColourSwitchSpawn;
-        PlayerController.onObstacleSpawn -= ObstacleSpawn;
+        PlayerController.OnColourSwitchSpawn -= ColourSwitchSpawn;
+        PlayerController.OnObstacleSpawn -= ObstacleSpawn;
     }
 
     public void ColourSwitchSpawn() // Spawns a new Colour Switch a set distance above the Player

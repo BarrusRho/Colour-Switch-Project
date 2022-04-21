@@ -14,14 +14,14 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.onStarCollected += UpdateScore;
-        PlayerController.onPlayerDeath += GameOver;
+        PlayerController.OnStarCollected += UpdateScore;
+        PlayerController.OnPlayerDeath += GameOver;
     }
 
     private void OnDisable()
     {
-        PlayerController.onStarCollected -= UpdateScore;
-        PlayerController.onPlayerDeath -= GameOver;
+        PlayerController.OnStarCollected -= UpdateScore;
+        PlayerController.OnPlayerDeath -= GameOver;
     }
 
     private void Start()
