@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -24,7 +23,7 @@ public class GameManager : MonoBehaviour
         PlayerController.onStarCollected -= UpdateScore;
         PlayerController.onPlayerDeath -= GameOver;
     }
-    
+
     private void Start()
     {
         StartGame();

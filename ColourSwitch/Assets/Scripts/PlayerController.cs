@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     private string _previousPlayerColour;
     private float _upwardsForce = 7.5f;
     private float _gravityScale = 2.5f;
-    //public SpawnManager spawnManager;
-    //public GameManager gameManager;
     public Color magentaColour, blueColour, greenColour, redColour;
     public GameObject deathEffect, starCollectedEffect;
 
@@ -22,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public static event OnColourSwitchSpawn onColourSwitchSpawn;
     public delegate void OnObstacleSpawn();
     public static event OnObstacleSpawn onObstacleSpawn;
-    
+
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -73,7 +71,6 @@ public class PlayerController : MonoBehaviour
             onPlayerDeath();
         }
 
-        //gameManager.GameOver(); // Begins the game over state
         this.gameObject.SetActive(false); // Disables the Player 
     }
 
@@ -120,10 +117,9 @@ public class PlayerController : MonoBehaviour
 
             if (onColourSwitchSpawn != null)
             {
-                onColourSwitchSpawn();
+                onColourSwitchSpawn();  // Instantiates a new Colour Switch
             }
 
-            //spawnManager.ColourSwitchSpawn(); // Instantiates a new Colour Switch
             AudioManager.instance.PlayColourChangeAudio();
             Destroy(other.gameObject, 0f); // Destroys current Colour Switch
             return;
@@ -135,10 +131,9 @@ public class PlayerController : MonoBehaviour
 
             if (onObstacleSpawn != null)
             {
-                onObstacleSpawn();
+                onObstacleSpawn(); // Instantiates a new obstacle from an array
             }
 
-            //spawnManager.ObstacleSpawn(); // Instantiates a new obstacle from an array
             Destroy(other.gameObject, 0f); // Destroys current Star Pickup
             return;
         }
@@ -162,8 +157,7 @@ public class PlayerController : MonoBehaviour
 
         if (onStarCollected != null)
         {
-            onStarCollected(starScore);
+            onStarCollected(starScore); // Adds score to the Text UI
         }
-        //gameManager.UpdateScore(starScore); // Adds score to the Text UI
     }
 }
