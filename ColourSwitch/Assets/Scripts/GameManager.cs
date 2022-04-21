@@ -13,12 +13,24 @@ public class GameManager : MonoBehaviour
     public GameObject startGamePanel, gameOverPanel;
     public TextMeshProUGUI scoreText, gameOverScoreText, highScoreText, restartText;
 
-    void Start()
+    private void OnEnable()
+    {
+        PlayerController.onStarCollected += UpdateScore;
+        PlayerController.onPlayerDeath += GameOver;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.onStarCollected -= UpdateScore;
+        PlayerController.onPlayerDeath -= GameOver;
+    }
+    
+    private void Start()
     {
         StartGame();
     }
 
-    void Update()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0) && startGamePanel.activeInHierarchy == true)
         {

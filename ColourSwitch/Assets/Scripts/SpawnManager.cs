@@ -6,7 +6,19 @@ public class SpawnManager : MonoBehaviour
     public Transform _playerTransform;
     public GameObject colourSwitch;
     public GameObject[] obstacle;
-    
+
+    private void OnEnable()
+    {
+        PlayerController.onColourSwitchSpawn += ColourSwitchSpawn;
+        PlayerController.onObstacleSpawn += ObstacleSpawn;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.onColourSwitchSpawn -= ColourSwitchSpawn;
+        PlayerController.onObstacleSpawn -= ObstacleSpawn;
+    }
+
     public void ColourSwitchSpawn() // Spawns a new Colour Switch a set distance above the Player
     {
         Instantiate(colourSwitch, new Vector2(_playerTransform.transform.position.x, _playerTransform.transform.position.y + _spawnDistance), transform.rotation);

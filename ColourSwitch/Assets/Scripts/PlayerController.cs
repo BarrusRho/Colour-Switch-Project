@@ -9,11 +9,20 @@ public class PlayerController : MonoBehaviour
     private string _previousPlayerColour;
     private float _upwardsForce = 7.5f;
     private float _gravityScale = 2.5f;
-    public SpawnManager spawnManager;
-    public GameManager gameManager;
+    //public SpawnManager spawnManager;
+    //public GameManager gameManager;
     public Color magentaColour, blueColour, greenColour, redColour;
     public GameObject deathEffect, starCollectedEffect;
 
+    public delegate void OnStarCollected(int scoreToAdd);
+    public static event OnStarCollected onStarCollected;
+    public delegate void OnPlayerDeath();
+    public static event OnPlayerDeath onPlayerDeath;
+    public delegate void OnColourSwitchSpawn();
+    public static event OnColourSwitchSpawn onColourSwitchSpawn;
+    public delegate void OnObstacleSpawn();
+    public static event OnObstacleSpawn onObstacleSpawn;
+    
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -58,7 +67,13 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(deathEffect, transform.position, transform.rotation); // Instantiates a player explosion particle system at the Player's transform position
         AudioManager.instance.PlayDefeatAudio(); // Plays a player explosion sound on Player death
-        gameManager.GameOver(); // Begins the game over state
+
+        if (onPlayerDeath != null)
+        {
+            onPlayerDeath();
+        }
+
+        //gameManager.GameOver(); // Begins the game over state
         this.gameObject.SetActive(false); // Disables the Player 
     }
 
@@ -102,7 +117,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("ColourSwitch"))
         {
             GiveRandomColour(); // Assigns new colour to Player when object is touched by Player
-            spawnManager.ColourSwitchSpawn(); // Instantiates a new Colour Switch
+
+            if (onColourSwitchSpawn != null)
+            {
+                onColourSwitchSpawn();
+            }
+
+            //spawnManager.ColourSwitchSpawn(); // Instantiates a new Colour Switch
             AudioManager.instance.PlayColourChangeAudio();
             Destroy(other.gameObject, 0f); // Destroys current Colour Switch
             return;
@@ -111,7 +132,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("StarPickup"))
         {
             CollectStar();
-            spawnManager.ObstacleSpawn(); // Instantiates a new obstacle from an array
+
+            if (onObstacleSpawn != null)
+            {
+                onObstacleSpawn();
+            }
+
+            //spawnManager.ObstacleSpawn(); // Instantiates a new obstacle from an array
             Destroy(other.gameObject, 0f); // Destroys current Star Pickup
             return;
         }
@@ -132,6 +159,11 @@ public class PlayerController : MonoBehaviour
         var starScore = 1;
         Instantiate(starCollectedEffect, transform.position, transform.rotation);
         AudioManager.instance.PlayStarCollectAudio();
-        gameManager.UpdateScore(starScore); // Adds score to the Text UI
+
+        if (onStarCollected != null)
+        {
+            onStarCollected(starScore);
+        }
+        //gameManager.UpdateScore(starScore); // Adds score to the Text UI
     }
 }
