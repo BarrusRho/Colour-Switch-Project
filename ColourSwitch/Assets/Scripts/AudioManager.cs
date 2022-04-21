@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public AudioSource jumpAudio, colourChangeAudio, starCollectAudio, defeatAudio;
+    public AudioSource backgroundAudio, jumpAudio, colourChangeAudio, starCollectAudio, defeatAudio;
 
     private void Awake()
     {
@@ -24,6 +24,16 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(this.gameObject, 0f);
         }
+    }
+
+    private void Start()
+    {
+        PlayBackgroundAudio();
+    }
+
+    public void PlayBackgroundAudio()
+    {
+        backgroundAudio.Play();
     }
 
     public void PlayJumpAudio()
@@ -41,7 +51,7 @@ public class AudioManager : MonoBehaviour
         starCollectAudio.Play();
     }
 
-    public void PlayDefeatAudio() 
+    public void PlayDefeatAudio()
     {
         jumpAudio.Stop();
         defeatAudio.Play();

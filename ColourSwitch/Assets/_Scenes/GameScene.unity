@@ -989,8 +989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c98871cc816fcb4aaa75770570edccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnManager: {fileID: 738072681}
-  gameManager: {fileID: 1223992869}
   magentaColour: {r: 0.7176471, g: 0, b: 0.8980392, a: 1}
   blueColour: {r: 0, g: 0.39607844, b: 1, a: 1}
   greenColour: {r: 0.15686275, g: 0.8666667, b: 0, a: 1}
@@ -1443,6 +1441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6151eded8f0962b4c85688ad7fb6f690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundAudio: {fileID: 2058657716}
   jumpAudio: {fileID: 2143886637}
   colourChangeAudio: {fileID: 1784454413}
   starCollectAudio: {fileID: 561935394}
@@ -3344,7 +3343,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b3c8c1f0550f0c5409214b4f5bca04d7, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
