@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -48,7 +49,9 @@ public class GameManager : MonoBehaviour
         canClick = false;
         startGamePanel.SetActive(true);
         scoreText.text = $"{_score}"; // Shows the score on the UI Text
-        _highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
+        //_highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
+        LoadHighScore();
+
     }
 
     public void UpdateScore(int scoreToAdd) // Adds score to UI Text and updates the highest score if a new high score is achieved
@@ -60,7 +63,8 @@ public class GameManager : MonoBehaviour
         {
             _highScore = _score;
             highScoreText.text = $"High Score: {_highScore}";
-            PlayerPrefs.SetInt("HighScore", _highScore);
+            //PlayerPrefs.SetInt("HighScore", _highScore);
+            SaveHighScore();
         }
     }
 
@@ -80,4 +84,30 @@ public class GameManager : MonoBehaviour
         restartText.gameObject.SetActive(true);
         canClick = true;
     }
+
+    [System.Serializable]
+    class SaveData
+    {
+        public int highScore;
+    }
+
+    public void SaveHighScore()
+    {
+        SaveData data = new SaveData();
+        data.highScore = _highScore;
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadHighScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+            _highScore = data.highScore;
+        }
+    }
 }
+
