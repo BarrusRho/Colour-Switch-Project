@@ -84,13 +84,7 @@ public class GameManager : MonoBehaviour
         restartText.gameObject.SetActive(true);
         canClick = true;
     }
-
-    [System.Serializable]
-    class SaveData
-    {
-        public int highScore;
-    }
-
+    
     public void SaveHighScore()
     {
         SaveData data = new SaveData();
