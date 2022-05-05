@@ -49,8 +49,7 @@ public class GameManager : MonoBehaviour
         canClick = false;
         startGamePanel.SetActive(true);
         scoreText.text = $"{_score}"; // Shows the score on the UI Text
-        //_highScore = PlayerPrefs.GetInt("HighScore"); // Gets the highest score recorded
-        LoadHighScore();
+        LoadHighScore(); // Gets the highest score recorded from SavaData
 
     }
 
@@ -63,8 +62,7 @@ public class GameManager : MonoBehaviour
         {
             _highScore = _score;
             highScoreText.text = $"High Score: {_highScore}";
-            //PlayerPrefs.SetInt("HighScore", _highScore);
-            SaveHighScore();
+            SaveHighScore(); //Sets the highscore SaveData
         }
     }
 
