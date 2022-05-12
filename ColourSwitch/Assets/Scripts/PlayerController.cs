@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayer()
     {
-
         _playerRigidbody.gravityScale = _gravityScale; // Sets gravity so the ball can fall
         _playerRigidbody.velocity = Vector2.up * _upwardsForce; // Jumping control with Left Mouse Click
         AudioManager.instance.PlayJumpAudio(); // Plays a jumping sound with every Left Mouse Click
