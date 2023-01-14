@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _playerSpriteRenderer;    
     private string _playerColour;
     private string _previousPlayerColour;
-    private float _upwardsForce = 7.5f;
-    private float _gravityScale = 2.5f;
+    private float _upwardsForce;
+    private float _gravityScale;
     public Color magentaColour, blueColour, greenColour, redColour;
     public GameObject deathEffect, starCollectedEffect;
     
@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        _upwardsForce = Settings.gameSettingsInstance.upwardsForce;
+        _gravityScale = Settings.gameSettingsInstance.gravityScale;
+        
         _mainCamera = Camera.main;
         _playerRigidbody = GetComponent<Rigidbody2D>();
         _playerSpriteRenderer = GetComponent<SpriteRenderer>();
