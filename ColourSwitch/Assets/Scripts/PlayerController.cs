@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (other.tag == _playerColour) // Checks if Player colour matches obstacle colour
+        if (other.CompareTag(_playerColour)) // Checks if Player colour matches obstacle colour
         {
             Debug.Log($"{other.tag} Colours match. You shall pass");
         }
