@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    [Tooltip("Coose which GameSettings asset to use")]
+    [Tooltip("Choose which GameSettings asset to use")]
     public GameSettingsScriptableObject _gameSettingsScriptableObject;
 
     private static GameSettingsScriptableObject _gameSettingsInstance = null;
