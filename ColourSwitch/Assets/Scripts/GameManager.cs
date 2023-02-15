@@ -1,5 +1,6 @@
 using System.Collections;
 using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -66,10 +67,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver() // Sets game over state to be true and starts running the end state UI
+    public async void GameOver() // Sets game over state to be true and starts running the end state UI
     {
         gameOver = true;
-        StartCoroutine(GameOverCoroutine());
+        //StartCoroutine(GameOverCoroutine());
+        await GameOverRoutine();
+        //GameOverRoutine().GetAwaiter().GetResult();
     }
 
     public IEnumerator GameOverCoroutine() // Starts running the end state UI and sets bool to allow clicking to restart the game
@@ -79,6 +82,17 @@ public class GameManager : MonoBehaviour
         gameOverScoreText.text = $"{_score}";
         highScoreText.text = $"{_highScore}";
         yield return new WaitForSeconds(0.75f);
+        restartText.gameObject.SetActive(true);
+        canClick = true;
+    }
+    
+    public async Task GameOverRoutine() // Starts running the end state UI and sets bool to allow clicking to restart the game
+    {
+        await Task.Delay(2000);
+        gameOverPanel.SetActive(true);
+        gameOverScoreText.text = $"{_score}";
+        highScoreText.text = $"{_highScore}";
+        await Task.Delay(750);
         restartText.gameObject.SetActive(true);
         canClick = true;
     }
